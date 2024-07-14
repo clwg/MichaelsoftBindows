@@ -1,6 +1,7 @@
 ﻿using Microsoft.Diagnostics.Tracing;
 using System.Text.Json.Serialization;
 using CsharpTracer.Helpers;
+using CSharpTracer.Logging;
 
 
 namespace CsharpTracer.Handlers
@@ -49,11 +50,11 @@ namespace CsharpTracer.Handlers
 
     internal class DnsEvent
     {
-        internal static void HandleDnsEvent(string eventType, TraceEvent data)
+        internal static void HandleDnsEvent(string eventName, TraceEvent data)
         {
             DNSData dnsObject = new DNSData
             {
-                EventName = eventType,
+                EventName = eventName,
                 ProcessId = data.ProcessID,
                 Timestamp = data.TimeStamp,
                 ProcessName = data.ProcessName,
@@ -99,6 +100,12 @@ namespace CsharpTracer.Handlers
                 {
                     InternalDnsCache.AddReverseIp(ipAddress, dnsObject.QueryName);
                 }
+
+               
+
+                var logger = Logger.GetInstance("logs.db");
+                logger.LogEvent(eventName, data.TimeStamp.ToString(), dnsObject);
+
                 Logging.JsonOutput.JsonSeralize(dnsObject);
             }
         }

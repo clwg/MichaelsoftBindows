@@ -5,6 +5,7 @@ using System.Text.RegularExpressions;
 
 using CsharpTracer.Helpers;
 using static CsharpTracer.Helpers.HashGenerator;
+using CSharpTracer.Logging;
 
 namespace CsharpTracer.Handlers
 {
@@ -74,6 +75,8 @@ namespace CsharpTracer.Handlers
                 _processCacheBuffer.Set(recordKey, true);
 
                 Logging.JsonOutput.JsonSeralize(registryData);
+                var logger = Logger.GetInstance("logs.db");
+                logger.LogEvent(data.EventName, data.TimeStamp.ToString(), registryData);
             }
             else
             {

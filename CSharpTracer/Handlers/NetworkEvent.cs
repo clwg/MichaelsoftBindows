@@ -1,6 +1,7 @@
 ﻿using Microsoft.Diagnostics.Tracing.Parsers.Kernel;
 using System.Text.Json.Serialization;
 using CsharpTracer.Helpers;
+using CSharpTracer.Logging;
 
 namespace CsharpTracer.Handlers
 {
@@ -37,11 +38,11 @@ namespace CsharpTracer.Handlers
 
     internal class NetworkEvent
     { 
-        internal static void HandleNetworkEvent(string eventType, TcpIpConnectTraceData data)
+        internal static void HandleNetworkEvent(string eventName, TcpIpConnectTraceData data)
         {
             TCPEventData tcpEventData = new TCPEventData()
             {
-                EventName = eventType,
+                EventName = eventName,
                 TimeStamp = data.TimeStamp,
                 ProcessId = data.ProcessID,
                 ProcessName = data.ProcessName,
@@ -65,6 +66,8 @@ namespace CsharpTracer.Handlers
             tcpEventData.DNSCacheQueries = dnsCacheQueries;
 
             Logging.JsonOutput.JsonSeralize(tcpEventData);
+            var logger = Logger.GetInstance("logs.db");
+            logger.LogEvent(eventName, data.TimeStamp.ToString(), tcpEventData);
         }
     }
 }

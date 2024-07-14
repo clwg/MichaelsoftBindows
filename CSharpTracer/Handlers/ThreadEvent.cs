@@ -1,8 +1,8 @@
 ﻿using Microsoft.Diagnostics.Tracing.Parsers.Kernel;
 using Microsoft.Extensions.Caching.Memory;
 using System.Text.Json.Serialization;
-
 using CsharpTracer.Helpers;
+using CSharpTracer.Logging;
 
 
 namespace CsharpTracer.Handlers
@@ -83,6 +83,8 @@ namespace CsharpTracer.Handlers
                 _threadCache.Set(recordKey, true);
 
                 Logging.JsonOutput.JsonSeralize(threadObject);
+                var logger = Logger.GetInstance("logs.db");
+                logger.LogEvent(eventName, data.TimeStamp.ToString(), threadObject);
             }
         }
     }
