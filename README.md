@@ -1,5 +1,9 @@
 # Michaelsoft Bindows 3.11
 
+## Project Structure
+
+Monorepo is the only strcuture supported by Michaelsoft Bindows 3.11.
+
 Usage
 
 ```
