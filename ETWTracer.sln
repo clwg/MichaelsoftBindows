@@ -7,7 +7,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CPlusInjector", "CPlusInjec
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventTypeMonitor", "EventTypeMonitor\EventTypeMonitor.csproj", "{D19F835C-6CC3-4D25-A201-D13B0036F659}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SeeSharpTracer", "SeeSharpTracer\SeeSharpTracer.csproj", "{57CDBD34-74B8-47A2-AD60-1AA18CE0BE9A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EtwTracer", "SeeSharpTracer\EtwTracer.csproj", "{57CDBD34-74B8-47A2-AD60-1AA18CE0BE9A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
