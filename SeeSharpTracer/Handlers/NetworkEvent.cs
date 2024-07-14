@@ -1,16 +1,7 @@
-﻿using Microsoft.Diagnostics.Tracing.Parsers.FrameworkEventSource;
-using Microsoft.Diagnostics.Tracing.Parsers.Kernel;
-using Microsoft.Extensions.Options;
-using SeeSharpTracer.Helpers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Runtime.InteropServices.JavaScript;
-using System.Text;
+﻿using Microsoft.Diagnostics.Tracing.Parsers.Kernel;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using System.Threading.Tasks;
+using EtwTracer.Helpers;
 
 namespace EtwTracer.Handlers
 {

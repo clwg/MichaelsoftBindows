@@ -5,7 +5,7 @@ using System.Text.Json.Serialization;
 using System.Text;
 
 
-namespace SeeSharpTracer.Helpers
+namespace EtwTracer.Helpers
 {
     public class FileObject
     {

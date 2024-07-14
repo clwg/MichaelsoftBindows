@@ -2,7 +2,7 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Microsoft.Extensions.Caching.Memory;
-using SeeSharpTracer.Helpers;
+using EtwTracer.Helpers;
 
 
 namespace EtwTracer.Handlers

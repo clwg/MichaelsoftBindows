@@ -1,12 +1,7 @@
-﻿using EtwTracer.Helpers;
-using Microsoft.Diagnostics.Tracing.Parsers.Kernel;
+﻿using Microsoft.Diagnostics.Tracing.Parsers.Kernel;
 using Microsoft.Extensions.Caching.Memory;
-using SeeSharpTracer.Helpers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using EtwTracer.Helpers;
+
 
 namespace EtwTracer.Handlers
 {
