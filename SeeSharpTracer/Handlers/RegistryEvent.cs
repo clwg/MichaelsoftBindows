@@ -1,5 +1,6 @@
 ﻿using Microsoft.Diagnostics.Tracing.Parsers.Kernel;
 using Microsoft.Extensions.Caching.Memory;
+using SeeSharpTracer.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;

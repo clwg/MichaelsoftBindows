@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Caching.Memory;
 using EtwTracer.Helpers;
+using SeeSharpTracer.Helpers;
 
 namespace EtwTracer.Handlers
 {

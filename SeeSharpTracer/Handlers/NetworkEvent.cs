@@ -1,6 +1,7 @@
 ﻿using Microsoft.Diagnostics.Tracing.Parsers.FrameworkEventSource;
 using Microsoft.Diagnostics.Tracing.Parsers.Kernel;
 using Microsoft.Extensions.Options;
+using SeeSharpTracer.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -5,7 +5,7 @@ using System.Text.Json.Serialization;
 using System.Text;
 
 
-namespace EtwTracer.Handlers
+namespace SeeSharpTracer.Helpers
 {
     public class FileObject
     {
@@ -17,10 +17,10 @@ namespace EtwTracer.Handlers
 
     public class Hashes
     {
-        
+
         [JsonPropertyName("md5")]
         public string Md5 { get; set; } = string.Empty;
-        
+
         [JsonPropertyName("sha256")]
         public string Sha256 { get; set; } = string.Empty;
 
@@ -143,7 +143,8 @@ namespace EtwTracer.Handlers
 
         internal static Hashes EnumHashes(string path)
         {
-            Hashes hashes = new Hashes { 
+            Hashes hashes = new Hashes
+            {
                 Md5 = ComputeMD5Hash(path),
                 Sha256 = ComputeSha256Hash(path),
                 Sha512 = ComputeSha512Hash(path)

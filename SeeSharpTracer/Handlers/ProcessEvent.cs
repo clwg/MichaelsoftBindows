@@ -1,4 +1,5 @@
 ﻿using Microsoft.Diagnostics.Tracing.Parsers.Kernel;
+using SeeSharpTracer.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
