@@ -33,8 +33,6 @@ namespace CsharpTracer.Handlers
 
         [JsonPropertyName("key_name")]
         public string KeyName { get; set; } = string.Empty;
-
-
     }
 
     internal class RegistryEvent
@@ -69,13 +67,13 @@ namespace CsharpTracer.Handlers
                     TimeStamp = timestamp
                 };
 
-                Logging.JsonOutput.JsonSeralize(registryData);
-
                 MemoryCacheEntryOptions options = new MemoryCacheEntryOptions
                 {
                     AbsoluteExpiration = DateTime.Now.AddSeconds(600)
                 };
                 _processCacheBuffer.Set(recordKey, true);
+
+                Logging.JsonOutput.JsonSeralize(registryData);
             }
             else
             {
