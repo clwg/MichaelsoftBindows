@@ -1,26 +1,47 @@
 ﻿using Microsoft.Diagnostics.Tracing.Parsers.Kernel;
 using EtwTracer.Helpers;
+using System.Text.Json.Serialization;
 
 
 namespace EtwTracer.Handlers
 {
     internal class ProcessObject
     {
+        [JsonPropertyName("image_filename")]
         public string ImageFileName { get; set; } = string.Empty;
+
+        [JsonPropertyName("command_line")]
         public string CommandLine { get; set; } = string.Empty;
+
+        [JsonPropertyName("event_name")]
         public string EventName { get; set; } = string.Empty;
+
+        [JsonPropertyName("kernel_image_filename")]
         public string KernelImageFileName { get; set; } = string.Empty;
+
+        [JsonPropertyName("timestamp")]
         public DateTime Timestamp { get; set; }
+
+        [JsonPropertyName("unique_processkey")]
         public ulong UniqueProcessKey { get; set; }
+
+        [JsonPropertyName("process_id")]
         public int ProcessId { get; set; }
+
+        [JsonPropertyName("process_file_info")]
         public FileObject? ProcessFileInfo { get; set; } = new FileObject();
+
+        [JsonPropertyName("parent_process_info")]
         public ParentProcessinfo? ParentProcessInfo { get; set; } = new ParentProcessinfo();
     }
 
     internal class ParentProcessinfo
     {
+        [JsonPropertyName("process_id")]
         public int ProcessId { get; set; }
-        public FileObject processFileInfo { get; set; } = new FileObject();
+
+        [JsonPropertyName("process_file_info")]
+        public FileObject ProcessFileInfo { get; set; } = new FileObject();
     }
 
 
@@ -50,7 +71,7 @@ namespace EtwTracer.Handlers
                 ParentProcessInfo = new ParentProcessinfo()
                 {
                     ProcessId = data.ParentID,
-                    processFileInfo = new FileObject()
+                    ProcessFileInfo = new FileObject()
                     {
                         Path = parentPath,
                         Hashes = parentHash

@@ -1,19 +1,35 @@
 ﻿using Microsoft.Diagnostics.Tracing.Parsers.Kernel;
 using Microsoft.Extensions.Caching.Memory;
 using EtwTracer.Helpers;
+using System.Text.Json.Serialization;
 
 namespace EtwTracer.Handlers
 {
     internal class ThreadObject
     {
+        [JsonPropertyName("event_name")]
         public string EventName { get; set; } = string.Empty;
+
+        [JsonPropertyName("process_id")]
         public int ProcessId { get; set; }
+
+        [JsonPropertyName("timestamp")]
         public DateTime Timestamp { get; set; }
+
+        [JsonPropertyName("process_name")]
         public string ProcessName { get; set; } = string.Empty;
+
+        [JsonPropertyName("thread_id")]
         public int ThreadId { get; set; }
+
+        [JsonPropertyName("parent_process_id")]
         public int ParentProcessId { get; set; }
-        public FileObject processFileInfo { get; set; } = new FileObject();
-        public ParentProcessinfo parentProcess { get; set; } = new ParentProcessinfo();
+
+        [JsonPropertyName("process_file_info")]
+        public FileObject ProcessFileInfo { get; set; } = new FileObject();
+
+        [JsonPropertyName("parent_process")]
+        public ParentProcessinfo ParentProcess { get; set; } = new ParentProcessinfo();
     }
 
     internal class ThreadEvent
@@ -42,15 +58,15 @@ namespace EtwTracer.Handlers
                     ProcessName = data.ProcessName,
                     ThreadId = data.ThreadID,
                     ParentProcessId = data.ParentProcessID,
-                    processFileInfo = new FileObject()
+                    ProcessFileInfo = new FileObject()
                     {
                         Path = path,
                         Hashes = processHash
                     },
-                    parentProcess = new ParentProcessinfo()
+                    ParentProcess = new ParentProcessinfo()
                     {
                         ProcessId = data.ParentProcessID,
-                        processFileInfo = new FileObject()
+                        ProcessFileInfo = new FileObject()
                         {
                             Path = parentPath,
                             Hashes = parentHash

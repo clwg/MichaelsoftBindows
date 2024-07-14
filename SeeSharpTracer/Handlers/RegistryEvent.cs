@@ -4,20 +4,37 @@ using EtwTracer.Helpers;
 using System.Text.RegularExpressions;
 
 using static EtwTracer.Helpers.HashGenerator;
-
+using System.Text.Json.Serialization;
 
 namespace EtwTracer.Handlers
 {
     internal class RegistryData
     {
+        [JsonPropertyName("event_name")]
         public string EventName { get; set; } = string.Empty;
+
+        [JsonPropertyName("timestamp")]
+        public DateTime TimeStamp { get; set; }
+
+        [JsonPropertyName("process_id")]
         public int ProcessID { get; set; }
+
+        [JsonPropertyName("thread_id")]
         public int ThreadID { get; set; }
+
+        [JsonPropertyName("process_name")]
         public string ProcessName { get; set; } = string.Empty;
+
+        [JsonPropertyName("process_path")]
         public string ProcessPath { get; set; } = string.Empty;
+
+        [JsonPropertyName("hashes")]
         public Hashes Hashes { get; set; } = new Hashes();
+
+        [JsonPropertyName("key_name")]
         public string KeyName { get; set; } = string.Empty;
-        public DateTime TimeStamp { get; set; } = DateTime.MinValue;
+
+
     }
 
     internal class RegistryEvent
@@ -52,7 +69,7 @@ namespace EtwTracer.Handlers
                     TimeStamp = timestamp
                 };
 
-               Logging.JsonOutput.JsonSeralize(registryData);
+                Logging.JsonOutput.JsonSeralize(registryData);
 
                 MemoryCacheEntryOptions options = new MemoryCacheEntryOptions
                 {

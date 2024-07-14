@@ -6,7 +6,6 @@ namespace EtwTracer.Helpers
 {
     internal class HashGenerator
     {
-
         public static string GenerateSHA1(string input)
         {
             using (SHA1 sha1 = SHA1.Create())

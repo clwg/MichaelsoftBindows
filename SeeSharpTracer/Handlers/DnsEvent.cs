@@ -7,47 +7,7 @@ using EtwTracer.Helpers;
 
 namespace EtwTracer.Handlers
 {
-    public class ReverseIpCache
-    {
-        private static readonly MemoryCache _reverseIpCache = new MemoryCache(new MemoryCacheOptions()
-        {
-            ExpirationScanFrequency = TimeSpan.FromSeconds(30)
-        });
-
-
-        public static HashSet<string> ReverseIpLookup(string ip)
-        {
-            // Try to get the cache entry for the given IP
-            if (_reverseIpCache.TryGetValue(ip, out HashSet<string>? cacheEntry))
-            {
-                // If cacheEntry is null, return a new HashSet<string>
-                return cacheEntry ?? new HashSet<string>();
-            }
-            else
-            {
-                return new HashSet<string>();
-            }
-        }
-
-        public static void AddReverseIp(string ip, string hostname)
-        {
-
-            MemoryCacheEntryOptions options = new MemoryCacheEntryOptions
-            {
-                // Rolling expiration
-                AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(1200)
-            };
-
-            var reverseIp = ReverseIpLookup(ip);
-            
-            // Add the hostname to the reverse lookup cache
-            reverseIp.Add(hostname);
-
-            _reverseIpCache.Set(ip, reverseIp, options);
-        }
-    }
-
-        internal class DNSData
+    internal class DNSData
     {
         [JsonPropertyName("event_name")]
         public string EventName { get; set; } = string.Empty;
@@ -92,10 +52,8 @@ namespace EtwTracer.Handlers
 
     internal class DnsEvent
     {
-
         internal static void HandleDnsEvent(string eventType, TraceEvent data)
         {
-
             DNSData dnsObject = new DNSData
             {
                 EventName = eventType,
@@ -110,13 +68,11 @@ namespace EtwTracer.Handlers
             var path = ProcessEnumeration.GetProcessPath(data.ProcessID);
             var processHash = ProcessEnumeration.EnumHashes(path);
 
-
             dnsObject.ProcessFileInfo = new FileObject()
             {
                 Path = path,
                 Hashes = processHash
             };
-
 
             if (data.PayloadStringByName("QueryResults") != null)
             {
@@ -136,31 +92,18 @@ namespace EtwTracer.Handlers
                     {
                         dnsObject.ResourceRecords.Add(new ResourceRecord { Name = startDomain, Type = "1", Data = result }); //need to deal with ipv6
                         dnsObject.IpAddresses.Add(result);
-                        
                     }
                 }
             }
 
-            // Add the IP addresses to the reverse lookup cache if the count is greater than 0
             if (dnsObject.IpAddresses.Count > 0)
             {
                 foreach (var ipAddress in dnsObject.IpAddresses)
                 {
-                    ReverseIpCache.AddReverseIp(ipAddress, dnsObject.QueryName);
+                    InternalDnsCache.AddReverseIp(ipAddress, dnsObject.QueryName);
                 }
+                Logging.JsonOutput.JsonSeralize(dnsObject);
             }
-
-            if (dnsObject.ResourceRecords.Count > 0)
-            {
-                var options = new JsonSerializerOptions
-                {
-                    WriteIndented = true
-                };
-
-                string jsonString = JsonSerializer.Serialize(dnsObject, options);
-                Console.WriteLine(jsonString);
-            }
-            
         }
     }
 }

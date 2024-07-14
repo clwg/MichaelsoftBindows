@@ -2,6 +2,7 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using EtwTracer.Helpers;
+using System.Runtime.InteropServices.JavaScript;
 
 namespace EtwTracer.Handlers
 {
@@ -9,6 +10,9 @@ namespace EtwTracer.Handlers
     {
         [JsonPropertyName("event_name")]
         public string EventName { get; set; } = string.Empty;
+        
+        [JsonPropertyName("timestamp")]
+        public DateTime TimeStamp { get; set; }
 
         [JsonPropertyName("dst_addr")]
         public string DestAddr { get; set; } = string.Empty; //casting as a string is intentional for generalized matching
@@ -25,9 +29,6 @@ namespace EtwTracer.Handlers
         [JsonPropertyName("thread_id")]
         public int ThreadId { get; set; }
 
-        [JsonPropertyName("timestamp")]
-        public DateTime TimeStamp { get; set; }
-
         [JsonPropertyName("dest_port")]
         public int DestPort { get; set; }
 
@@ -40,21 +41,18 @@ namespace EtwTracer.Handlers
     { 
         internal static void HandleNetworkEvent(string eventType, TcpIpConnectTraceData data)
         {
-            Console.WriteLine("Network Event");
-
             TCPEventData tcpEventData = new TCPEventData()
             {
                 EventName = eventType,
+                TimeStamp = data.TimeStamp,
                 ProcessId = data.ProcessID,
                 ProcessName = data.ProcessName,
                 ThreadId = data.ThreadID,
-                TimeStamp = data.TimeStamp,
                 DestPort = data.dport
             };
 
             var path = ProcessEnumeration.GetProcessPath(data.ProcessID);
             var processHash = ProcessEnumeration.EnumHashes(path);
-
 
             tcpEventData.ProcessFileInfo = new FileObject()
             {
@@ -65,19 +63,10 @@ namespace EtwTracer.Handlers
             var destAddr = data.daddr.ToString(); 
             tcpEventData.DestAddr = destAddr;
 
-            var dnsCacheQueries = ReverseIpCache.ReverseIpLookup(destAddr);
+            var dnsCacheQueries = InternalDnsCache.ReverseIpLookup(destAddr);
             tcpEventData.DNSCacheQueries = dnsCacheQueries;
 
-            var options = new JsonSerializerOptions
-            {
-                WriteIndented = true
-            };
-
-            string jsonString = JsonSerializer.Serialize(tcpEventData, options);
-            Console.WriteLine(jsonString);
-
-            Console.WriteLine("Network Event Finished");
-
+            Logging.JsonOutput.JsonSeralize(tcpEventData);
         }
     }
 }
