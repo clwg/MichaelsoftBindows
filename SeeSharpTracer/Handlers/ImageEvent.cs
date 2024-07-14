@@ -72,14 +72,14 @@ namespace EtwTracer.Handlers
                         Hashes = processHash
                     },
                 };
-
-                Logging.JsonOutput.JsonSeralize(imageObject);
-                
+        
                 MemoryCacheEntryOptions options = new MemoryCacheEntryOptions
                 {
                     AbsoluteExpiration = DateTime.Now.AddSeconds(600)
                 };
                 _imageCache.Set(recordKey, true);
+
+                Logging.JsonOutput.JsonSeralize(imageObject);
             }
         }
     }

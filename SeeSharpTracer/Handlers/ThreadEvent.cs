@@ -74,14 +74,14 @@ namespace EtwTracer.Handlers
                     }
                 };
 
-                Logging.JsonOutput.JsonSeralize(threadObject);
-
                 MemoryCacheEntryOptions options = new MemoryCacheEntryOptions
                 {
                     AbsoluteExpiration = DateTime.Now.AddSeconds(600)
                 };
                 _threadCache.Set(recordKey, true);
-            }            
+
+                Logging.JsonOutput.JsonSeralize(threadObject);
+            }
         }
     }
 }

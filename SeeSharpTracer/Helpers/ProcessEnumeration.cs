@@ -121,20 +121,6 @@ namespace EtwTracer.Helpers
             };
 
             return hashes;
-
-        }
-
-        public static string EnumProcessName(int pid)
-        {
-            try
-            {
-                var process = Process.GetProcessById(pid);
-                return process.ProcessName;
-            }
-            catch
-            {
-                return string.Empty;
-            }
         }
     }
 }

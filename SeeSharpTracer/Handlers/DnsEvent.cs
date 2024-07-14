@@ -1,7 +1,5 @@
 ﻿using Microsoft.Diagnostics.Tracing;
-using System.Text.Json;
 using System.Text.Json.Serialization;
-using Microsoft.Extensions.Caching.Memory;
 using EtwTracer.Helpers;
 
 
@@ -35,7 +33,6 @@ namespace EtwTracer.Handlers
 
         [JsonPropertyName("process_info")]
         public FileObject? ProcessFileInfo { get; set; } = new FileObject();
-
     }
 
     internal class ResourceRecord

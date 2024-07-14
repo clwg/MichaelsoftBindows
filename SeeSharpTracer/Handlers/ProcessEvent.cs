@@ -78,6 +78,7 @@ namespace EtwTracer.Handlers
                     }
                 }
             };
+
             Logging.JsonOutput.JsonSeralize(processObject);
         }
     }

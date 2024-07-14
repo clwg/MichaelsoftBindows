@@ -1,8 +1,6 @@
 ﻿using Microsoft.Diagnostics.Tracing.Parsers.Kernel;
-using System.Text.Json;
 using System.Text.Json.Serialization;
 using EtwTracer.Helpers;
-using System.Runtime.InteropServices.JavaScript;
 
 namespace EtwTracer.Handlers
 {
