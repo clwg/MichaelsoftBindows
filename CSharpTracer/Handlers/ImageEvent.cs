@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Caching.Memory;
 using CsharpTracer.Helpers;
 using System.Text.Json.Serialization;
+using CSharpTracer.Logging;
 
 
 namespace CsharpTracer.Handlers
@@ -80,6 +81,8 @@ namespace CsharpTracer.Handlers
                 _imageCache.Set(recordKey, true);
 
                 Logging.JsonOutput.JsonSeralize(imageObject);
+                var logger = Logger.GetInstance("logs.db");
+                logger.LogEvent(eventName, data.TimeStamp.ToString(), imageObject);
             }
         }
     }

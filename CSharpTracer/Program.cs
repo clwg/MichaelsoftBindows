@@ -2,6 +2,8 @@
 using Microsoft.Diagnostics.Tracing.Parsers;
 using CsharpTracer.Helpers;
 using CsharpTracer.Handlers;
+using CSharpTracer.Logging;
+
 
 namespace CsharpTracer
 {
@@ -10,6 +12,9 @@ namespace CsharpTracer
         static void Main(string[] args)
         {
             Console.WriteLine("Starting System Monitor...");
+
+            //var logger = Logger.GetInstance("logs.db");
+
 
             InternalDnsCache.AddReverseIp("127.0.0.1", "localhost");
 
@@ -40,9 +45,9 @@ namespace CsharpTracer
                 KernelTraceEventParser.Keywords.Process
             );
 
-            session.Source.Kernel.TcpIpConnect += data => Handlers.NetworkEvent.HandleNetworkEvent("NetworkTcpIp", data);
-
+            
             // Uncomment and add handlers as needed
+            session.Source.Kernel.TcpIpConnect += data => Handlers.NetworkEvent.HandleNetworkEvent("NetworkTcpIp", data);
             session.Source.Kernel.RegistryCreate += data =>  RegistryEvent.HandleRegistryEvent("RegistryCreate", data);
             session.Source.Kernel.RegistryDelete += data => RegistryEvent.HandleRegistryEvent("RegistryDelete", data);
             session.Source.Kernel.RegistrySetValue += data => RegistryEvent.HandleRegistryEvent("RegistrySetValue", data);
