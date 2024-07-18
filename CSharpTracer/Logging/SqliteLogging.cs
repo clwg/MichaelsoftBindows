@@ -7,9 +7,10 @@ namespace CSharpTracer.Logging
 {
     public class Logger
     {
-        public static Logger _instance;
+        private static Logger? _instance;
         private static readonly object _lock = new object();
         private readonly string _connectionString;
+        private static readonly string databasePath = "logs.db";
 
         private Logger(string databasePath)
         {
@@ -17,7 +18,7 @@ namespace CSharpTracer.Logging
             InitializeDatabase();
         }
 
-        public static Logger GetInstance(string databasePath)
+        public static Logger GetInstance()
         {
             if (_instance == null)
             {
@@ -40,13 +41,13 @@ namespace CSharpTracer.Logging
             var createTableCommand = connection.CreateCommand();
             createTableCommand.CommandText =
             @"
-                CREATE TABLE IF NOT EXISTS Logs (
-                    Id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    Timestamp TEXT NOT NULL,
-                    EventName TEXT NOT NULL,
-                    Data TEXT NOT NULL
-                );
-            ";
+                        CREATE TABLE IF NOT EXISTS Logs (
+                            Id INTEGER PRIMARY KEY AUTOINCREMENT,
+                            Timestamp TEXT NOT NULL,
+                            EventName TEXT NOT NULL,
+                            Data TEXT NOT NULL
+                        );
+                    ";
             createTableCommand.ExecuteNonQuery();
         }
 
@@ -61,9 +62,9 @@ namespace CSharpTracer.Logging
             var insertCommand = connection.CreateCommand();
             insertCommand.CommandText =
             @"
-                INSERT INTO Logs (Timestamp, EventName, Data)
-                VALUES ($timestamp, $EventName, $data);
-            ";
+                        INSERT INTO Logs (Timestamp, EventName, Data)
+                        VALUES ($timestamp, $EventName, $data);
+                    ";
 
             insertCommand.Parameters.AddWithValue("$timestamp", timestamp);
             insertCommand.Parameters.AddWithValue("$EventName", EventName);

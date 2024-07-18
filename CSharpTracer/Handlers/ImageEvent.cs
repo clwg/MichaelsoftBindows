@@ -81,7 +81,7 @@ namespace CsharpTracer.Handlers
                 _imageCache.Set(recordKey, true);
 
                 Logging.JsonOutput.JsonSeralize(imageObject);
-                var logger = Logger.GetInstance("logs.db");
+                var logger = Logger.GetInstance();
                 logger.LogEvent(eventName, data.TimeStamp.ToString(), imageObject);
             }
         }

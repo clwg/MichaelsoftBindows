@@ -103,7 +103,7 @@ namespace CsharpTracer.Handlers
 
                
 
-                var logger = Logger.GetInstance("logs.db");
+                var logger = Logger.GetInstance();
                 logger.LogEvent(eventName, data.TimeStamp.ToString(), dnsObject);
 
                 Logging.JsonOutput.JsonSeralize(dnsObject);
