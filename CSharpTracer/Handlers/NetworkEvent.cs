@@ -66,7 +66,7 @@ namespace CsharpTracer.Handlers
             tcpEventData.DNSCacheQueries = dnsCacheQueries;
 
             Logging.JsonOutput.JsonSeralize(tcpEventData);
-            var logger = Logger.GetInstance("logs.db");
+            var logger = Logger.GetInstance();
             logger.LogEvent(eventName, data.TimeStamp.ToString(), tcpEventData);
         }
     }

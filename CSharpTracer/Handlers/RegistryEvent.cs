@@ -75,7 +75,7 @@ namespace CsharpTracer.Handlers
                 _processCacheBuffer.Set(recordKey, true);
 
                 Logging.JsonOutput.JsonSeralize(registryData);
-                var logger = Logger.GetInstance("logs.db");
+                var logger = Logger.GetInstance();
                 logger.LogEvent(data.EventName, data.TimeStamp.ToString(), registryData);
             }
             else

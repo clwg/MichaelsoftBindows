@@ -81,7 +81,7 @@ namespace CsharpTracer.Handlers
             };
 
             Logging.JsonOutput.JsonSeralize(processObject);
-            var logger = Logger.GetInstance("logs.db");
+            var logger = Logger.GetInstance();
             logger.LogEvent(eventName, data.TimeStamp.ToString(), processObject);
         }
     }

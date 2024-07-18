@@ -83,7 +83,7 @@ namespace CsharpTracer.Handlers
                 _threadCache.Set(recordKey, true);
 
                 Logging.JsonOutput.JsonSeralize(threadObject);
-                var logger = Logger.GetInstance("logs.db");
+                var logger = Logger.GetInstance();
                 logger.LogEvent(eventName, data.TimeStamp.ToString(), threadObject);
             }
         }
