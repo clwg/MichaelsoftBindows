@@ -38,7 +38,7 @@ namespace CsharpTracer
             using var session = new TraceEventSession("FullMonitorSession");
 
             session.EnableKernelProvider(
-                KernelTraceEventParser.Keywords.Registry |
+                // KernelTraceEventParser.Keywords.Registry |
                 KernelTraceEventParser.Keywords.ImageLoad |
                 KernelTraceEventParser.Keywords.Thread |
                 KernelTraceEventParser.Keywords.NetworkTCPIP |
@@ -48,10 +48,10 @@ namespace CsharpTracer
             
             // Uncomment and add handlers as needed
             session.Source.Kernel.TcpIpConnect += data => Handlers.NetworkEvent.HandleNetworkEvent("NetworkTcpIp", data);
-            session.Source.Kernel.RegistryCreate += data =>  RegistryEvent.HandleRegistryEvent("RegistryCreate", data);
-            session.Source.Kernel.RegistryDelete += data => RegistryEvent.HandleRegistryEvent("RegistryDelete", data);
-            session.Source.Kernel.RegistrySetValue += data => RegistryEvent.HandleRegistryEvent("RegistrySetValue", data);
-            session.Source.Kernel.RegistrySetInformation += data => RegistryEvent.HandleRegistryEvent("RegistrySetInformation", data);
+            //session.Source.Kernel.RegistryCreate += data =>  RegistryEvent.HandleRegistryEvent("RegistryCreate", data);
+            //session.Source.Kernel.RegistryDelete += data => RegistryEvent.HandleRegistryEvent("RegistryDelete", data);
+            //session.Source.Kernel.RegistrySetValue += data => RegistryEvent.HandleRegistryEvent("RegistrySetValue", data);
+            //session.Source.Kernel.RegistrySetInformation += data => RegistryEvent.HandleRegistryEvent("RegistrySetInformation", data);
             session.Source.Kernel.ProcessStart += data => ProcessEvent.HandleProcessEvent("ProcessStart", data);
             session.Source.Kernel.ProcessStop += data => ProcessEvent.HandleProcessEvent("ProcessStop", data);
             session.Source.Kernel.ThreadStart += data => ThreadEvent.HandleThreadEvent("ThreadStart", data);

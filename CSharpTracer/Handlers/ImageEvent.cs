@@ -83,6 +83,21 @@ namespace CsharpTracer.Handlers
                 Logging.JsonOutput.JsonSeralize(imageObject);
                 var logger = Logger.GetInstance();
                 logger.LogEvent(eventName, data.TimeStamp.ToString(), imageObject);
+
+                var graphRecord =  new Logger.GraphRecord()
+                {
+                    Source = processHash.Sha256,
+                    SourceType = "sha256",
+                    EdgeType = data.EventName,
+                    Target = data.FileName,
+                    TargetType = "filename",
+                    Observations = 1,
+                    FirstSeen = data.TimeStamp,
+                    LastSeen = data.TimeStamp
+                };
+
+                logger.LogGraph(graphRecord);
+
             }
         }
     }

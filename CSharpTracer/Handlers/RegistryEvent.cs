@@ -34,6 +34,10 @@ namespace CsharpTracer.Handlers
 
         [JsonPropertyName("key_name")]
         public string KeyName { get; set; } = string.Empty;
+    
+        [JsonPropertyName("key_short_name")]
+            public string KeyShortName { get; set; } = string.Empty;
+
     }
 
     internal class RegistryEvent
@@ -50,8 +54,8 @@ namespace CsharpTracer.Handlers
             var processHash = ProcessEnumeration.EnumHashes(path);
             var processName = data.ProcessName;
             var timestamp = data.TimeStamp;
-            var keyName = ReplaceGuidInKeyName(data.KeyName);
-
+            var keyName = data.KeyName;
+            var shortKey = ReplaceGuidInKeyName(data.KeyName);
             var recordKey = GenerateMD5($"{processHash.Sha512}{data.EventName}{keyName}{path}");
 
             if (!_processCacheBuffer.TryGetValue(recordKey, out _))
@@ -65,6 +69,7 @@ namespace CsharpTracer.Handlers
                     ProcessPath = path,
                     Hashes = processHash,
                     KeyName = keyName,
+                    KeyShortName = shortKey,
                     TimeStamp = timestamp
                 };
 
@@ -77,6 +82,22 @@ namespace CsharpTracer.Handlers
                 Logging.JsonOutput.JsonSeralize(registryData);
                 var logger = Logger.GetInstance();
                 logger.LogEvent(data.EventName, data.TimeStamp.ToString(), registryData);
+
+
+                var graphRecord = new Logger.GraphRecord()
+                {
+                    Source = processHash.Sha256,
+                    SourceType = "sha256",
+                    EdgeType = data.EventName,
+                    Target = shortKey,
+                    TargetType = "registry",
+                    Observations = 1,
+                    FirstSeen = timestamp,
+                    LastSeen = timestamp
+                };
+
+                logger.LogGraph(graphRecord);
+
             }
             else
             {

@@ -68,6 +68,28 @@ namespace CsharpTracer.Handlers
             Logging.JsonOutput.JsonSeralize(tcpEventData);
             var logger = Logger.GetInstance();
             logger.LogEvent(eventName, data.TimeStamp.ToString(), tcpEventData);
+
+
+            // Create graph object
+            var graphRecord = new Logger.GraphRecord()
+            {
+                Source = processHash.Sha256,
+                SourceType = "sha256",
+                Target = destAddr,
+                EdgeType = data.EventName,
+                TargetType = "ipaddr",
+                Observations = 1,
+                FirstSeen = data.TimeStamp,
+                LastSeen = data.TimeStamp
+            };
+
+
+            // Log the graph data
+            logger.LogGraph(graphRecord);
+            
+            
+
+
         }
     }
 }
