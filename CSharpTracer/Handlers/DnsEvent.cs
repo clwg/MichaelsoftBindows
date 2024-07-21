@@ -96,17 +96,31 @@ namespace CsharpTracer.Handlers
 
             if (dnsObject.IpAddresses.Count > 0)
             {
-                foreach (var ipAddress in dnsObject.IpAddresses)
-                {
-                    InternalDnsCache.AddReverseIp(ipAddress, dnsObject.QueryName);
-                }
-
-               
 
                 var logger = Logger.GetInstance();
                 logger.LogEvent(eventName, data.TimeStamp.ToString(), dnsObject);
 
                 Logging.JsonOutput.JsonSeralize(dnsObject);
+
+
+                foreach (var ipAddress in dnsObject.IpAddresses)
+                {
+                    InternalDnsCache.AddReverseIp(ipAddress, dnsObject.QueryName);
+
+                    var graphRecord = new Logger.GraphRecord()
+                    {
+                        Source = dnsObject.QueryName,
+                        SourceType = "fqdn",
+                        EdgeType = "DNS",
+                        Target = ipAddress,
+                        TargetType = "ipaddr",
+                        Observations = 1,
+                        FirstSeen = data.TimeStamp,
+                        LastSeen = data.TimeStamp
+                    };
+
+                    logger.LogGraph(graphRecord);
+                }
             }
         }
     }
