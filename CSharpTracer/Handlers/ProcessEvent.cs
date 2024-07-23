@@ -98,8 +98,33 @@ namespace CsharpTracer.Handlers
 
             logger.LogGraph(graphRecord);
 
-            // Log the graph data
-            //logger.LogGraph(processHash.Sha256, "sha256", "process", parentPath, "parent", 1, data.TimeStamp, data.TimeStamp);
+            var graphPathRecord = new Logger.GraphRecord()
+            {
+                Source = processHash.Sha256,
+                SourceType = "sha256",
+                EdgeType = "filepath",
+                Target = path,
+                TargetType = "filepath",
+                Observations = 1,
+                FirstSeen = data.TimeStamp,
+                LastSeen = data.TimeStamp
+            };
+
+            logger.LogGraph(graphPathRecord);
+
+            var parentGraphPathRecord = new Logger.GraphRecord()
+            {
+                Source = parentHash.Sha256,
+                SourceType = "sha256",
+                EdgeType = "filepath",
+                Target = parentPath,
+                TargetType = "filepath",
+                Observations = 1,
+                FirstSeen = data.TimeStamp,
+                LastSeen = data.TimeStamp
+            };
+
+            logger.LogGraph(graphPathRecord);
         }
     }
 }

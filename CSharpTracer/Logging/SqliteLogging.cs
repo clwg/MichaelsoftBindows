@@ -3,6 +3,7 @@ using System.Data;
 using Microsoft.Data.Sqlite;
 using System.Text.Json;
 using CsharpTracer.Helpers;
+using System.Text.Json.Serialization;
 
 namespace CSharpTracer.Logging
 {
@@ -15,13 +16,21 @@ namespace CSharpTracer.Logging
 
         internal class GraphRecord
         {
+            [JsonPropertyName("source")]
             public string Source { get; set; } = string.Empty;
+            [JsonPropertyName("source_type")]
             public string SourceType { get; set; } = string.Empty;
+            [JsonPropertyName("edge_type")]
             public string EdgeType { get; set; } = string.Empty;
+            [JsonPropertyName("target")]
             public string Target { get; set; } = string.Empty;
+            [JsonPropertyName("target_type")]
             public string TargetType { get; set; } = string.Empty;
+            [JsonPropertyName("observations")]
             public long Observations { get; set; }
+            [JsonPropertyName("first_seen")]
             public DateTime FirstSeen { get; set; }
+            [JsonPropertyName("last_seen")]
             public DateTime LastSeen { get; set; }
         }
 

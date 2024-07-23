@@ -69,7 +69,6 @@ namespace CsharpTracer.Handlers
             var logger = Logger.GetInstance();
             logger.LogEvent(eventName, data.TimeStamp.ToString(), tcpEventData);
 
-
             // Create graph object
             var graphRecord = new Logger.GraphRecord()
             {
@@ -83,11 +82,21 @@ namespace CsharpTracer.Handlers
                 LastSeen = data.TimeStamp
             };
 
-
-            // Log the graph data
             logger.LogGraph(graphRecord);
-            
-            
+
+            var graphPathRecord = new Logger.GraphRecord()
+            {
+                Source = processHash.Sha256,
+                SourceType = "sha256",
+                EdgeType = "filepath",
+                Target = path,
+                TargetType = "filepath",
+                Observations = 1,
+                FirstSeen = data.TimeStamp,
+                LastSeen = data.TimeStamp
+            };
+
+            logger.LogGraph(graphPathRecord);
 
 
         }
